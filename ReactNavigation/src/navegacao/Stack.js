@@ -11,7 +11,7 @@ export default props => (
     <Stack.Navigator initialRouteName='TelaA'
         screenOptions={{headerShown: true}}>
         <Stack.Screen name="TelaA" 
-            options={{title: 'A'}}>
+            options={{title: 'TelaA'}}>
                 {props => (
                     <PassoStack {...props} avancar="TelaB">
                         <TelaA/>
@@ -20,11 +20,18 @@ export default props => (
             </Stack.Screen>
         <Stack.Screen name="TelaB">
                 {props => (
-                    <PassoStack {...props} avancar="TelaC">
+                    <PassoStack {...props} avancar="TelaC" voltar
+                    avancarParams={{numero: 1007}}>
                         <TelaB/>
                     </PassoStack>
                 )}
         </Stack.Screen>
-        <Stack.Screen name="TelaC" component={TelaC}/>
+        <Stack.Screen name="TelaC">
+                {props => (
+                    <PassoStack {...props} avancar="TelaC" voltar>
+                        <TelaC {...props}/>
+                    </PassoStack>
+                )}
+        </Stack.Screen>
     </Stack.Navigator>
 )
