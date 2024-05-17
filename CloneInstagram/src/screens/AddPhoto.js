@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {addPost} from '../store/actions/posts'
 import {
     View,
     Text,
@@ -32,7 +34,9 @@ class AddPhoto extends Component {
     }
 
     save = async () =>{
-        Alert.alert('imagem adicionada', this.state.comment)
+        this.props.onAddPost({
+            
+        })
     }
 
     render() {
