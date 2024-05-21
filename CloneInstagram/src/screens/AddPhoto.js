@@ -13,7 +13,9 @@ import {
     ScrollView,
     Alert
 } from 'react-native'
-import ImagePicker from ''
+import ImagePicker from 'react-native-image-pickers'
+
+const noUser = 'Você precisa estar logado para adicionar a imagem'
 
 class AddPhoto extends Component {
     state = {
@@ -22,6 +24,10 @@ class AddPhoto extends Component {
     }
 
     pickImage = () => {
+        if(!this.props.name){
+            Alert.alert('Falha', noUser)
+            return
+        }
         ImagePicker.showImagePicker({
             title: 'Escolha a imagem',
             maxHeight: 600,
@@ -34,9 +40,22 @@ class AddPhoto extends Component {
     }
 
     save = async () =>{
+        if(!this.props.name){
+            Alert.alert('Falha', noUser)
+            return
+        }
         this.props.onAddPost({
-            
+            id: Math.random(),
+            nickname: this.props.name,
+            email: this.props.email,
+            image: this.state.image,
+            comments:[{
+                nickname: this.props.name
+            }]
         })
+
+        this.setState({image: null, comment: ''})
+        this.props.navigation.navigate
     }
 
     render() {
@@ -99,4 +118,17 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddPhoto
+const mapStateToProps = ({user}) => {
+    return {
+        email: user.email,
+        name: user.name
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddPost: post => dispatch(addPost(post))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto)
