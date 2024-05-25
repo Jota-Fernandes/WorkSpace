@@ -11,7 +11,7 @@ class Post extends Component {
         const addComment = this.props.name ? <AddComment postId={this.props.id}/> : null
         return (
             <View style={StyleSheet.container}>
-                <Image source={this.props.image} style={styles.image}/>
+                <Image source={{uri: this.props.image}} style={styles.image}/>
                 <Author email={this.props.email}
                     nickname={this.props.nickname}/>
                 <Comments commets={this.props.comments}/>

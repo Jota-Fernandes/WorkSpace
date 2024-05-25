@@ -3,8 +3,10 @@ import {connect} from 'react-redux'
 import { StyleSheet,FlatList, View } from 'react-native'
 import Header from '../components/Header'
 import Post from '../components/Post'
+import {fetchPosts} from '../store/actions/posts'
 
 class Feed extends Component {
+    
     state = {
         posts: [{
             id: Math.random(),
@@ -42,5 +44,7 @@ class Feed extends Component {
 }
 
 const mapStateToProps = ({posts})=>{
-    return 
+    return {
+        posts
+    }
 }

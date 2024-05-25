@@ -1,3 +1,11 @@
+ import {
+    SET_POSTS, 
+    ADD_COMMENT,
+    CREATING_POST,
+    POST_CREATED
+} from '../actions/actionTypes'
+
+ 
  const reducer = (state = initialState,action) =>{
     switch (action.type){
         case ADD_POST: 
