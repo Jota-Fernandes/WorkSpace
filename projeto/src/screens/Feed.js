@@ -1,47 +1,38 @@
-import React, {Component} from 'react'
-import { StyleSheet, FlatList, View } from 'react-native'
-import Header from '../components/Header'
-import Post from '../components/Post'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet, FlatList, View } from 'react-native';
+import Header from '../components/Header';
+import Post from '../components/Post';
 
-export default function Feed(){
-    state = {
-        posts: [{
-            id: Math.random(),
-            nickname: 'Rafael Pereira Filho',
-            email: 'rafaelprrflh@gmail.com',
-            image: require('../../assets/imgs/copa.jpg'),
-            comments: [{
-                nickname: 'John Ray Sheldon',
-                comment: 'Stunning!'
-            }, {
-                nickname: 'Ana Julia Arruda',
-                comment: 'Foto Linda! Onde foi tirada?'
-            }]
-        },{
-            id: Math.random(),
-            nickname: 'Francisco Leandro Lima',
-            email: 'fllima@gmail.com',
-            image: require('../../assets/imgs/pele.jpg'),
-            comments: []
-        }]
-    }
-        return(
+class Feed extends Component {
+    render(){
+        return (
             <View style={styles.container}>
-                <Header/>
+                <Header />
                 <FlatList 
-                    data={this.state.posts}
+                    data={this.props.posts}
                     keyExtractor={item => `${item.id}`}
-                    renderItem={({item}) =>
-                        <Post key={item.id}{...item}/>}/>
+                    renderItem={({ item }) => 
+                    <Post key={item.id} {...item} />}
+                />
             </View>
-        )
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCCFF'
     }
-})
+});
+
+const mapStateToProps = ({posts}) => {
+    return {
+        posts: posts.posts
+    };
+};
+
+export default connect(mapStateToProps)(Feed);

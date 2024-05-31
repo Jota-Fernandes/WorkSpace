@@ -3,9 +3,17 @@
  */
 import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
-import App from './App';
-import Feed from './src/screens/Feed'
+import { Provider } from 'react-redux';
 import MenuNavigator from './src/Navigator';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => MenuNavigator);
+import storeConfig from './src/store/storeConfig';
+
+const store = storeConfig()
+const Redux = () => (
+    <Provider store={store}>
+        <MenuNavigator/>
+    </Provider>
+)
+
+AppRegistry.registerComponent(appName, () => Redux);

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addPost } from '../store/actions/posts';
 import {
     View,
     Text,
@@ -9,10 +11,8 @@ import {
     Dimensions,
     Platform,
     ScrollView,
-    Alert,
-    ActionSheetIOS
 } from 'react-native';
-import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 
 class AddPhoto extends Component {
     state = {
@@ -21,79 +21,37 @@ class AddPhoto extends Component {
     };
 
     pickImage = () => {
-        if (Platform.OS === 'ios') {
-            ActionSheetIOS.showActionSheetWithOptions(
-                {
-                    options: ['Cancelar', 'Escolher da Galeria', 'Tirar Foto'],
-                    cancelButtonIndex: 0,
-                },
-                (buttonIndex) => {
-                    if (buttonIndex === 1) {
-                        this.launchLibrary();
-                    } else if (buttonIndex === 2) {
-                        this.launchCamera();
-                    }
-                }
-            );
-        } else {
-            // For Android, show a simple alert with choices
-            Alert.alert(
-                'Escolha a imagem',
-                '',
-                [
-                    { text: 'Cancelar', style: 'cancel' },
-                    { text: 'Escolher da Galeria', onPress: this.launchLibrary },
-                    { text: 'Tirar Foto', onPress: this.launchCamera },
-                ],
-                { cancelable: true }
-            );
-        }
-    };
-
-    launchLibrary = () => {
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                maxHeight: 600,
-                maxWidth: 800,
-                includeBase64: true,
-            },
-            (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled image picker');
-                } else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-                } else {
-                    const source = { uri: response.assets[0].uri, base64: response.assets[0].base64 };
-                    this.setState({ image: source });
-                }
+        ImagePicker.launchCamera({
+            mediaType: 'photo',
+            maxWidth: 800,
+            maxHeight: 600,
+            includeBase64: true,
+        }, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else {
+                this.setState({
+                    image: { uri: response.assets[0].uri }
+                });
             }
-        );
-    };
-
-    launchCamera = () => {
-        launchCamera(
-            {
-                mediaType: 'photo',
-                maxHeight: 600,
-                maxWidth: 800,
-                includeBase64: true,
-            },
-            (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled image picker');
-                } else if (response.error) {
-                    console.log('ImagePicker Error: ', response.error);
-                } else {
-                    const source = { uri: response.assets[0].uri, base64: response.assets[0].base64 };
-                    this.setState({ image: source });
-                }
-            }
-        );
-    };
+        });
+    }
 
     save = async () => {
-        Alert.alert('Imagem adicionada!', this.state.comment);
+        this.props.onAddPost({
+            id: Math.random(),
+            nickname: this.props.name,
+            email: this.props.email,
+            image: this.state.image,
+            comments: [{
+                nickname: this.props.name,
+                comment: this.state.comment
+            }]
+        });
+        this.setState({ image: null, comment: '' });
+        this.props.navigation.navigate('Feed');
     };
 
     render() {
@@ -101,11 +59,11 @@ class AddPhoto extends Component {
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={styles.title}>Compartilhe sua imagem</Text>
-                    <View style={styles.imageContainer}>
-                        {this.state.image && (
+                    {this.state.image && (
+                        <View style={styles.imageContainer}>
                             <Image source={this.state.image} style={styles.image} />
-                        )}
-                    </View>
+                        </View>
+                    )}
                     <TouchableOpacity onPress={this.pickImage} style={styles.button}>
                         <Text style={styles.buttonText}>Escolha uma foto</Text>
                     </TouchableOpacity>
@@ -162,4 +120,17 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddPhoto;
+const mapStateToProps = ({user}) => {
+    return {
+        email: user.email,
+        name: user.name
+    };
+};
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onAddPost: post => dispatch(addPost(post))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps )(AddPhoto);

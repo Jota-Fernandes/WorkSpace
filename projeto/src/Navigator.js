@@ -39,9 +39,9 @@ export default function App() {
             })}
               
           >
-            <Tab.Screen name="Feed" component={Feed} />
-            <Tab.Screen name="AddPhoto" component={AddPhoto} />
-            <Tab.Screen name="Profile" component={Profile} />
+            <Tab.Screen name="Feed" component={Feed} options={{ headerShown: false }} />
+            <Tab.Screen name="AddPhoto" component={AddPhoto} options={{ headerShown: false }} />
+            <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
           </Tab.Navigator>
         );
       }
@@ -49,7 +49,7 @@ export default function App() {
     return (
             <NavigationContainer>
                 <authRouter.Navigator initialRouteName="Login">
-                    <authRouter.Screen name="Login" component={Login} />
+                    <authRouter.Screen name="Login" component={Login} options={{ headerShown: false }} />
                     <authRouter.Screen name="Register" component={Register} />
                     <authRouter.Screen name="Home" component={HomeTabs} options={{ headerShown: false }} />
                 </authRouter.Navigator>

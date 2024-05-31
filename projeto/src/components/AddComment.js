@@ -30,7 +30,7 @@ class AddComment extends Component{
                         onChangeText={comment => this.setState({comment})}
                         onSubmitEditing={this.handleAddComment}/>
                         <TWF onPress = {() => this.setState({editMode: false})}>
-                            <Icon name='rocket' size={15} color='#555'/>
+                            <Icon name='times' size={15} color='#555'/>
                         </TWF>
                 </View>
             )
@@ -38,7 +38,7 @@ class AddComment extends Component{
             commentArea = (
                 <TWF onPress = {() => this.setState({editMode: true})}>
                     <View style={styles.container}> 
-                        <Icon name='rocket' size={25} color='#555'/>
+                        <Icon name='comment-o' size={25} color='#555'/>
                         <Text style={styles.caption}>
                             Adicionar um comentário...
                         </Text>
@@ -60,12 +60,13 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 2,
+        marginLeft: 10
     },
     caption: {
         marginLeft: 10,
         fontSize: 12,
-        color: '#CCC'
+        color: 'gray'
     },
     input: {
         width: '90%'
