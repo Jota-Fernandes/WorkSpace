@@ -7,17 +7,12 @@ import {
     TextInput
 } from 'react-native';
 
-class Login extends Component {
+
+export default function Login({navigation}) {
     state = {
         email: '',
         password: ''
     }
-
-    login = () => {
-        this.props.onLogin()
-    }
-
-    render() {
         return (
             <View style={styles.container}>
                 <TextInput
@@ -35,16 +30,15 @@ class Login extends Component {
                     value={this.state.password}
                     onChangeText={password => this.setState({ password })}
                 />
-                <TouchableOpacity onPress={this.login} style={styles.button}>
+                <TouchableOpacity onPress={()=> navigation.navigate('Home', { screen: 'Feed' })} style={styles.button}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}} style={styles.button}>
+                <TouchableOpacity onPress={()=> navigation.navigate('Register')} style={styles.button}>
                     <Text style={styles.buttonText}>Criar nova conta...</Text>
                 </TouchableOpacity>
             </View>
         );
     }
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -70,5 +64,3 @@ const styles = StyleSheet.create({
         borderColor: '#333',
     }
 });
-
-export default Login;

@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, View } from 'react-native'
 import Header from '../components/Header'
 import Post from '../components/Post'
 
-class Feed extends Component {
+export default function Feed(){
     state = {
         posts: [{
             id: Math.random(),
@@ -25,7 +25,6 @@ class Feed extends Component {
             comments: []
         }]
     }
-    render(){
         return(
             <View style={styles.container}>
                 <Header/>
@@ -36,7 +35,6 @@ class Feed extends Component {
                         <Post key={item.id}{...item}/>}/>
             </View>
         )
-    }
 }
 
 const styles = StyleSheet.create({
@@ -47,5 +45,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCCFF'
     }
 })
-
-export default Feed
