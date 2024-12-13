@@ -49,19 +49,13 @@ x_train_small = np.array([img_noisy])
 x_train_noisy_small = np.array([img_noisy])
 
 # Treinar o autoencoder (ajuste o número de epochs conforme necessário)
-autoencoder.fit(x_train_noisy_small, x_train_small, epochs=1000, batch_size=1, shuffle=True)
+autoencoder.fit(x_train_noisy_small, x_train_small, epochs=3000, batch_size=1, shuffle=True)
 
 # Use o autoencoder para remover o ruído da imagem
 denoised_img = autoencoder.predict(np.expand_dims(img_noisy, axis=0))
 
 # Visualizar os resultados
 plt.figure(figsize=(15, 5))
-
-# Imagem Ruidosa
-plt.subplot(1, 3, 1)
-plt.imshow(img_noisy.reshape(original_shape[0], original_shape[1]), cmap='gray')
-plt.title("Noisy")
-plt.axis('off')
 
 # Imagem Original
 plt.subplot(1, 3, 2)

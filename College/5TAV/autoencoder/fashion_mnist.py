@@ -4,14 +4,14 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D
 from tensorflow.keras.models import Model
 
-# Carregar o dataset MNIST
+# Carrega o dataset MNIST
 (x_train, _), (x_test, _) = mnist.load_data()
 
-# Normalize as imagens para o intervalo [0, 1]
+# Normaliza as imagens para o intervalo [0, 1]
 x_train = x_train.astype('float32') / 255.
 x_test = x_test.astype('float32') / 255.
 
-# Adicione uma dimensão para que as imagens tenham a forma (28, 28, 1)
+# dimensão para que as imagens tenham a forma (28, 28, 1)
 x_train = np.expand_dims(x_train, axis=-1)
 x_test = np.expand_dims(x_test, axis=-1)
 
@@ -25,7 +25,7 @@ x_train_noisy = add_noise(x_train)
 x_test_noisy = add_noise(x_test)
 
 # Definir a arquitetura do autoencoder
-input_img = Input(shape=(28, 28, 1))  # Ajuste conforme a forma das suas imagens
+input_img = Input(shape=(28, 28, 1))
 
 # Encoder
 x = Conv2D(32, (3, 3), activation='relu', padding='same')(input_img)
@@ -46,7 +46,6 @@ autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
 # Treinamento do autoencoder
 autoencoder.fit(x_train_noisy, x_train, epochs=10, batch_size=256, shuffle=True, validation_data=(x_test_noisy, x_test))
 
-# Use o autoencoder para remover o ruído das imagens de teste
 decoded_imgs = autoencoder.predict(x_test_noisy)
 
 # Visualizar os resultados

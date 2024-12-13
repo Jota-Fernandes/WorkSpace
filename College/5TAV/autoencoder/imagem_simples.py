@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampli
 from tensorflow.keras.models import Model
 
 # Baixar a imagem da internet
-url = 'https://images.vexels.com/content/156962/preview/simple-fish-stroke-icon-c9ed11.png'
+url = 'https://www.pintarecolorir.com.br/imagem/modelos-gato-desenhar/desenho-simples-gato-sentado-sorrindo.png'
 response = requests.get(url)
 img = Image.open(BytesIO(response.content)).convert('L')  # Converte para escala de cinza
 
@@ -48,9 +48,8 @@ x_train_small = np.array([img])
 x_train_noisy_small = np.array([noisy_img])
 
 # Treinar o autoencoder (ajuste o número de epochs conforme necessário)
-autoencoder.fit(x_train_noisy_small, x_train_small, epochs=1000, batch_size=1, shuffle=True)
+autoencoder.fit(x_train_noisy_small, x_train_small, epochs=300, batch_size=1, shuffle=True)
 
-# Use o autoencoder para remover o ruído da imagem
 denoised_img = autoencoder.predict(np.expand_dims(noisy_img, axis=0))
 
 # Visualizar os resultados

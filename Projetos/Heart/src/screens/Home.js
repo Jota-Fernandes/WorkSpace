@@ -2,14 +2,13 @@ import React from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import { LogoHeart } from "../components/Logo_heart";
-import { HeartInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 
-export default function Home(){
+export default function Home({navigation}){
     return(
         <View style={styles.container}>
             <LogoHeart/>
-            <Button/>
+            <Button navigation={navigation}/>
         </View>
     )
 }
