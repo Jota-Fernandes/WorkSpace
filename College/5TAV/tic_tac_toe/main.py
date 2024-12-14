@@ -143,10 +143,11 @@ while contador <= qtd_partidas:
             jogador1 = random.randint(0, 8)  
             if tabuleiro[jogador1] == '  ':  
                 tabuleiro[jogador1] = "O"  
-                #visualiza_tabuleiro(tabuleiro)
+                #functions.visualiza_tabuleiro(tabuleiro)
         
             if functions.verifica_vitoria(tabuleiro):
                 print("Jogador 1 ganhou")
+                functions.visualiza_tabuleiro(tabuleiro)
                 derrotas += 1
                 tabuleiro = ['  '] * 9  
                 break
@@ -160,7 +161,7 @@ while contador <= qtd_partidas:
             movimento1 = functions.movimento_campeao(tabuleiro, 'X')
             if movimento1 is not None:
                 tabuleiro[movimento1] = "X"
-            #visualiza_tabuleiro(tabuleiro)
+                #functions.visualiza_tabuleiro(tabuleiro)
 
             if functions.verifica_vitoria(tabuleiro):
                 print("jogador 2 ganhou")

@@ -60,7 +60,9 @@ empate = 0
 qtdPartida = int(input("Quantas partidas? "))
 
 # Armazenar os resultados de cada partida
-resultados = []
+vitorias = []
+empates = []
+derrotas = []
 
 for i in range(qtdPartida):
     estado_anterior = None
@@ -71,14 +73,18 @@ for i in range(qtdPartida):
         
         if verificar_vencedor(jogador1, tabuleiro):
             vitoria += 1
-            resultados.append('Vitória')
+            vitorias.append(vitoria)
+            empates.append(empate)
+            derrotas.append(derrota)
             if estado_anterior is not None:
                 atualizar_q_table(estado_anterior, acao_anterior, 1, tuple(tabuleiro))  # Recompensa positiva para vitória
             tabuleiro = [' ' for _ in range(9)]
             break
         elif verificar_empate(tabuleiro):
             empate += 1
-            resultados.append('Empate')
+            empates.append(empate)
+            vitorias.append(vitoria)
+            derrotas.append(derrota)
             if estado_anterior is not None:
                 atualizar_q_table(estado_anterior, acao_anterior, 0.5, tuple(tabuleiro))  # Recompensa neutra para empate
             tabuleiro = [' ' for _ in range(9)]
@@ -94,13 +100,17 @@ for i in range(qtdPartida):
 
         if verificar_vencedor(jogador2, tabuleiro):
             derrota += 1
-            resultados.append('Derrota')
+            derrotas.append(derrota)
+            vitorias.append(vitoria)
+            empates.append(empate)
             atualizar_q_table(estado_anterior, acao_anterior, -1, tuple(tabuleiro))  # Recompensa negativa para derrota
             tabuleiro = [' ' for _ in range(9)]
             break
         elif verificar_empate(tabuleiro):
             empate += 1
-            resultados.append('Empate')
+            empates.append(empate)
+            vitorias.append(vitoria)
+            derrotas.append(derrota)
             atualizar_q_table(estado_anterior, acao_anterior, 0.5, tuple(tabuleiro))  # Recompensa neutra para empate
             tabuleiro = [' ' for _ in range(9)]
             break
@@ -126,11 +136,13 @@ print(relatorio)
 # Gerar gráfico dos resultados
 partidas = list(range(1, qtdPartida + 1))
 plt.figure(figsize=(10, 5))
-plt.plot(partidas, resultados, marker='o', linestyle='-')
+plt.plot(partidas, vitorias, marker='o', linestyle='-', color='green', label='Vitórias acumuladas')
+plt.plot(partidas, empates, marker='o', linestyle='-', color='blue', label='Empates acumulados')
+plt.plot(partidas, derrotas, marker='o', linestyle='-', color='red', label='Derrotas acumuladas')
 plt.xlabel('Partidas')
-plt.ylabel('Resultados')
-plt.title('Resultados das Partidas')
-plt.xticks(partidas)
+plt.ylabel('Número Acumulado')
+plt.title('Relação Partida x Resultados')
+plt.legend()
 plt.grid(True)
-plt.savefig('resultados_partidas.png')  # Salvar o gráfico como um arquivo PNG
+plt.savefig('relacao_partida_resultados.png')  # Salvar o gráfico como um arquivo PNG
 plt.show()
