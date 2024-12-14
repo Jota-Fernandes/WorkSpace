@@ -4,7 +4,7 @@ import { HeartInput } from './TextInput';
 import generatePass from '../services/passwordService';
 import * as Clipboard from 'expo-clipboard'
 
-export function Button() {
+export function Button({navigation}) {
     const [pass, setPass] = useState('')
 
     function handleGenerateButton(){
@@ -21,10 +21,13 @@ export function Button() {
             <HeartInput pass = {pass}/>
         </View>
         <Pressable onPress={handleGenerateButton} style={styles.button}>
-            <Text style={styles.text}>GENERATE</Text>
+            <Text style={styles.text}>GERAR</Text>
         </Pressable>
         <Pressable onPress={handleCopyButton} style={styles.button}>
-            <Text style={styles.text}>COPY</Text>
+            <Text style={styles.text}>COPIAR</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={()=>{navigation.navigate("Login")}}>
+            <Text style={styles.text}>ACESSAR SENHAS SALVAS</Text>
         </Pressable>
     </>
   );

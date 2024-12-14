@@ -1,30 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('');
 
-  const handleLogin = () => {
-    console.log('Email:', email, 'Password:', password, 'UserType:', userType);
+  useEffect(() => {
+    const storeAdminCredentials = async () => {
+      const adminData = {
+        userType: 'Administrador',
+        email: 'root',
+        password: 'password',
+      };
+      await AsyncStorage.setItem('@user_root', JSON.stringify(adminData));
+    };
+
+    storeAdminCredentials();
+  }, []);
+
+  const handleLogin = async () => {
     if (email && password && userType) {
-      switch(userType) {
-        case 'Laboratorista':
-          navigation.navigate('Laboratorista');
-          break;
-        case 'Medico':
-          navigation.navigate('Medico');
-          break;
-        case 'Administrador':
-          navigation.navigate('Administrador');
-          break;
-        default:
-          navigation.navigate('Usuario');
-          break;
+      try {
+        const userData = await AsyncStorage.getItem(`@user_${email}`);
+        if (userData) {
+          const user = JSON.parse(userData);
+          if (user.password === password && user.userType === userType) {
+            Alert.alert("Login Bem-sucedido", `Bem-vindo, ${user.email}!`);
+            switch(userType) {
+              case 'Laboratorista':
+                navigation.navigate('Laboratorista');
+                break;
+              case 'Medico':
+                navigation.navigate('Medico');
+                break;
+              case 'Administrador':
+                navigation.navigate('Administrador');
+                break;
+              default:
+                navigation.navigate('Usuario');
+                break;
+            }
+          } else {
+            Alert.alert("Erro", "Senha ou tipo de usuário incorretos.");
+          }
+        } else {
+          Alert.alert("Erro", "Usuário não encontrado.");
+        }
+      } catch (error) {
+        Alert.alert("Erro", "Não foi possível realizar o login. Tente novamente.");
       }
     } else {
-      alert('Por favor, insira todas as informações necessárias.');
+      Alert.alert("Erro", "Por favor, insira todas as informações necessárias.");
     }
   };
 
@@ -48,7 +76,6 @@ const LoginScreen = ({ navigation }) => {
       />
       <Text style={styles.optionTitle}>Selecione o tipo de usuário:</Text>
       <View style={styles.buttonContainer}>
-       
         <TouchableOpacity
           style={[
             styles.userButton,

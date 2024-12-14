@@ -1,17 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const MedicoHomeScreen = () => {
+  const [selectedTestType, setSelectedTestType] = useState('');
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Resultados Laboratoriais</Text>
-      <Text style={styles.optionTitle}>Selecione uma opção:</Text>
-      <TouchableOpacity style={styles.optionButton}>
-        <Text style={styles.optionButtonText}>Resultado 1</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.optionButton}>
-        <Text style={styles.optionButtonText}>Resultado 2</Text>
-      </TouchableOpacity>
+      <Text style={styles.title}>Tipo de teste</Text>
+
+      <Text style={styles.subTitle}>Buscar paciente</Text>
+      <TextInput 
+        style={styles.input}
+        placeholder="Número do registro"
+      />
+
+      <View style={styles.testTypeContainer}>
+        <Text style={styles.subTitle}>Tipo de Exame</Text>
+        <View style={styles.radioContainer}>
+          <TouchableOpacity 
+            style={styles.radioButton}
+            onPress={() => setSelectedTestType('PCR Qualitativa')}
+          >
+            <View style={selectedTestType === 'PCR Qualitativa' ? styles.radioButtonSelected : styles.radioButtonUnselected} />
+            <Text style={styles.radioText}>PCR Qualitativa</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.radioButton}
+            onPress={() => setSelectedTestType('qPCR')}
+          >
+            <View style={selectedTestType === 'qPCR' ? styles.radioButtonSelected : styles.radioButtonUnselected} />
+            <Text style={styles.radioText}>qPCR</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.treatmentContainer}>
+        <Text style={styles.subTitle}>Recomendar Tratamento</Text>
+        <TextInput 
+          style={styles.input}
+          placeholder="Descrever tratamento"
+          multiline
+        />
+      </View>
     </View>
   );
 };
@@ -27,21 +57,52 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
-  optionTitle: {
+  subTitle: {
     fontSize: 18,
-    marginVertical: 20,
+    marginVertical: 10,
   },
-  optionButton: {
+  input: {
     width: '80%',
     padding: 10,
-    backgroundColor: '#007bff',
+    borderWidth: 1,
+    borderColor: '#ccc',
     borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 10,
+    backgroundColor: '#fff',
+    marginBottom: 20,
   },
-  optionButtonText: {
-    color: '#fff',
+  testTypeContainer: {
+    width: '80%',
+    marginBottom: 20,
+  },
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  radioButtonUnselected: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginRight: 10,
+  },
+  radioButtonSelected: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    backgroundColor: '#007bff',
+    marginRight: 10,
+  },
+  radioText: {
     fontSize: 16,
+  },
+  treatmentContainer: {
+    width: '80%',
   },
 });
 

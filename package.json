@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "react-native-linear-gradient": "^2.8.3"
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-navigation/native": "^7.0.8",
+    "@react-navigation/stack": "^7.0.13",
+    "react-native-linear-gradient": "^2.8.3",
+    "react-native-safe-area-context": "^4.14.0",
+    "react-native-screens": "^4.3.0"
   }
 }
